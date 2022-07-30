@@ -88,6 +88,6 @@ namespace pdp {
       public:
         Row *create_row(const std::string &name);
       private:
-        std::vector<Row> rows;
+        std::vector<Row *> rows;
     };
 }  // namespace PDP

@@ -18,10 +18,12 @@ namespace pdp {
         }
 
         void read_def(std::string &def_file);
-        static int def_row_cbk(defrCallbackType_e c, defiRow* ro, defiUserData ud);
+        void read_lef(std::string &lef_file) {}
+
+        //call back
+        static int def_row_cbk(defrCallbackType_e ct, defiRow* defrow, defiUserData ud);
       private:
         DB db_;
-        static void *userData;
 
     };
 

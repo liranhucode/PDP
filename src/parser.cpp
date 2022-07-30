@@ -33,7 +33,7 @@ namespace pdp
         defrUnsetRowCbk();
     }
 
-    int Parser::def_row_cbk(defrCallbackType_e c, defiRow* defrow, defiUserData ud)
+    int Parser::def_row_cbk(defrCallbackType_e ct, defiRow* defrow, defiUserData ud)
     {
         DB  *db  = (DB *)ud;
         Row *row = db->create_row(defrow->name());

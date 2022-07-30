@@ -51,7 +51,7 @@ BraceWrapping:
   # class定义后面
   AfterClass:	true
   # 控制语句后面
-  AfterControlStatement:	false
+  AfterControlStatement: Never
   # enum定义后面
   AfterEnum:	 true
   # 函数定义后面

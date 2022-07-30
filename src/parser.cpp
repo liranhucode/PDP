@@ -1,11 +1,9 @@
 #include "parser.h"
 
-
 namespace pdp
 {
 
-
-    void Parser::read_def(std::string& def_file)
+    void Parser::read_def(std::string &def_file)
     {
         FILE *fp = nullptr;
         if ((fp = fopen(def_file.c_str(), "r")) == 0) {
@@ -34,7 +32,6 @@ namespace pdp
             std::cout << "Reading " << def_file.c_str() << " is Done" << std::endl;
         }
 
-
         defrReleaseNResetMemory();
         defrUnsetCallbacks();
 
@@ -43,9 +40,9 @@ namespace pdp
         is_done_ = true;
     }
 
-    int Parser::def_row_cbk(defrCallbackType_e ct, defiRow* defrow, defiUserData ud)
+    int Parser::def_row_cbk(defrCallbackType_e ct, defiRow *defrow, defiUserData ud)
     {
-        DB  *db  = (DB *)ud;
+        DB *db = (DB *)ud;
         Row *row = db->create_row(defrow->name());
 
         row->orig_x(defrow->x());
@@ -63,12 +60,12 @@ namespace pdp
         return 0;
     }
 
-    int Parser::def_component_cbk(defrCallbackType_e ct,  defiComponent *defcom, defiUserData ud)
+    int Parser::def_component_cbk(defrCallbackType_e ct, defiComponent *defcom, defiUserData ud)
     {
         if (defcom == nullptr) {
             return 0;
         }
-        DB  *db  = (DB *)ud;
+        DB *db = (DB *)ud;
         Cell *cell = db->create_cell(defcom->name());
         cell->print();
 
@@ -76,10 +73,9 @@ namespace pdp
     }
     int Parser::def_start_cbk(defrCallbackType_e ct, int num, defiUserData ud)
     {
-        DB  *db  = (DB *)ud;
+        DB *db = (DB *)ud;
         db->get_cell().reserve(num);
-        //reinterpret_cast<DB *>(ud)->get_cell().reserve(num);
+        // reinterpret_cast<DB *>(ud)->get_cell().reserve(num);
         return 0;
     }
-} // namespace pdp
-
+}  // namespace pdp

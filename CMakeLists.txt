@@ -99,7 +99,3 @@ target_link_libraries( PDP
 add_dependencies( PDP def )
 add_dependencies( PDP lef )
 
-############################################################
-# Install  
-############################################################
-

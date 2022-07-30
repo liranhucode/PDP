@@ -17,6 +17,8 @@ namespace pdp {
                               (ClientData)0, 0);
             Tcl_CreateCommand(interp, "load_def", (Tcl_CmdProc*)read_def_cmd,
                               (ClientData)0, 0);
+            Tcl_CreateCommand(interp, "detail_place", (Tcl_CmdProc*)detail_place_cmd,
+                              (ClientData)0, 0);
 
             return TCL_OK;
         }
@@ -29,11 +31,9 @@ namespace pdp {
             return TCL_OK;
         }
 
-        static int
-        read_lef_cmd(ClientData notUsed, Tcl_Interp* interp, int argc, char** argv);
-
-        static int
-        read_def_cmd(ClientData notUsed, Tcl_Interp* interp, int argc, char** argv);
+        static int read_lef_cmd(ClientData notUsed, Tcl_Interp *interp, int argc, char **argv);
+        static int read_def_cmd(ClientData notUsed, Tcl_Interp *interp, int argc, char **argv);
+        static int detail_place_cmd(ClientData notUsed, Tcl_Interp *interp, int argc, char **argv);
         // static int detail_place();
     };
 

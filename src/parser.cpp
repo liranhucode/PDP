@@ -3,34 +3,44 @@
 
 namespace pdp
 {
-    //static DB* db = new DB();
-    static int i = 0;
-    //static void* userData;
+
+
     void Parser::read_def(std::string& def_file)
     {
-
-        //userData = &db_;
-        defrInitSession(0);
-        //defrSetUserData((void*)db);
-        defrSetRowCbk((defrRowCbkFnType)def_row_cbk);
-
-        FILE*       f       = nullptr;
-        const char* fileStr = def_file.c_str();
-        if ((f = fopen(fileStr, "r")) == 0) {
-            fprintf(stderr, "**\nERROR: Couldn't open input file '%s'\n", fileStr);
+        FILE *fp = nullptr;
+        if ((fp = fopen(def_file.c_str(), "r")) == 0) {
+            fprintf(stderr, "**\nERROR: Couldn't open input file '%s'\n", def_file.c_str());
             exit(1);
         }
 
-        int res = defrRead(f, fileStr, &db_, 1);
+        defrSetLogFunction(log_func);
+        defrInitSession(0);
+        defrSetWarningLogFunction(warning_func);
+
+        defrSetUserData((void *)db_);
+        defrSetRowCbk(def_row_cbk);
+        defrSetComponentStartCbk(def_start_cbk);
+        defrSetComponentCbk(def_component_cbk);
+
+        defrInit();
+        defrReset();
+
+        int res = defrRead(fp, def_file.c_str(), (void *)db_, 1);
         if (res) {
-            std::cout << "Reader returns bad status: " << fileStr << std::endl;
+            std::cout << "Error in reading LEF: " << std::endl;
             exit(1);
         }
         else {
-            std::cout << "Reading " << fileStr << " is Done" << std::endl;
+            std::cout << "Reading " << def_file.c_str() << " is Done" << std::endl;
         }
 
-        defrUnsetRowCbk();
+
+        defrReleaseNResetMemory();
+        defrUnsetCallbacks();
+
+        fclose(fp);
+
+        is_done_ = true;
     }
 
     int Parser::def_row_cbk(defrCallbackType_e ct, defiRow* defrow, defiUserData ud)
@@ -50,6 +60,25 @@ namespace pdp
 
         row->print();
 
+        return 0;
+    }
+
+    int Parser::def_component_cbk(defrCallbackType_e ct,  defiComponent *defcom, defiUserData ud)
+    {
+        if (defcom == nullptr) {
+            return 0;
+        }
+        DB  *db  = (DB *)ud;
+        Cell *cell = db->create_cell(defcom->name());
+        cell->print();
+
+        return 0;
+    }
+    int Parser::def_start_cbk(defrCallbackType_e ct, int num, defiUserData ud)
+    {
+        DB  *db  = (DB *)ud;
+        db->get_cell().reserve(num);
+        //reinterpret_cast<DB *>(ud)->get_cell().reserve(num);
         return 0;
     }
 } // namespace pdp

@@ -55,7 +55,9 @@ namespace pdp
             row->step_y(defrow->yStep());
         }
 
+#ifdef PDP_DEBUG
         row->print();
+#endif
 
         return 0;
     }
@@ -75,7 +77,6 @@ namespace pdp
     {
         DB *db = (DB *)ud;
         db->get_cell().reserve(num);
-        // reinterpret_cast<DB *>(ud)->get_cell().reserve(num);
         return 0;
     }
 }  // namespace pdp

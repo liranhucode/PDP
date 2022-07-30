@@ -9,8 +9,8 @@ project(PDP)
 set(CMAKE_CXX_FLAGS "-O3")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -ggdb")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-
-add_compile_options(-Wreturn-type)
+add_compile_options(-Wall)
+add_compile_options(-D PDP_DEBUG)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
@@ -48,7 +48,6 @@ include_directories(src)
 
 file(GLOB SRC_FILES src/*.cpp)
 message(STATUS "SRC_FILES = ${SRC_FILES}")
-
 
 ############################################################
 # Include directories

@@ -1,4 +1,13 @@
 
 build
 .gitignore
+benchmark
 
+*.o
+*.swo
+*.swi
+*.nfs*
+*.def
+*.txt
+*.log
+.vscode

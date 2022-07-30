@@ -15,7 +15,7 @@ add_compile_options(-Wreturn-type)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 
-set(PDP_HOME ${PROJECT_SOURCE_DIR} )
+#set(PDP_HOME ${PROJECT_SOURCE_DIR} )
 set(DEFLIB_HOME
   ${PROJECT_SOURCE_DIR}/src/def
 )
@@ -23,14 +23,31 @@ set(LEFLIB_HOME
   ${PROJECT_SOURCE_DIR}/src/lef
 )
 
-find_package( TCL )
+find_package(TCL COMPONENTS REQUIRED)
+
+
+if (TCL_FOUND)
+  #message(STATUS "TCL_= ${}")
+  message(STATUS "TCL_INCLUDE_DIR = ${TCL_INCLUDE_PATH}")
+  message(STATUS "TCL_LIBS = ${TCL_LIBRARY}")
+
+  include_directories(${TCL_INCLUDE_PATH})
+
+endif (TCL_FOUND)
+
+if (TK_FOUND)
+  message(STATUS "TK_INCLUDE_DIR = ${TK_INCLUDE_PATH}")
+  message(STATUS "TK_LIBS = ${TK_LIBRARY}")
+  include_directories(${TK_INCLUDE_PATH})
+endif (TK_FOUND)
 
 add_subdirectory(${DEFLIB_HOME})
 add_subdirectory(${LEFLIB_HOME})
 
-
+include_directories(src) 
 
 file(GLOB SRC_FILES src/*.cpp)
+message(STATUS "SRC_FILES = ${SRC_FILES}")
 
 
 ############################################################
@@ -72,8 +89,13 @@ target_link_libraries( PDP
   lefzlib
   clef
   clefzlib
-  ${TCL_LIBRARIES}
+  ${TCL_LIBRARY}
+  ${TK_LIBRARY}
 )
+
+#target_link_libraries(${PROGNAME} ${TCL_LIBRARY})
+#target_link_libraries(${PROGNAME} ${TK_LIBRARY})
+
 
 add_dependencies( PDP def )
 add_dependencies( PDP lef )

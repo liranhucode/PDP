@@ -31,8 +31,7 @@ namespace pdp {
     {
         std::cout << "Doing detail placement " << std::endl;
         Parser &paser = Parser::get_instance();
-        if (!paser.is_done())
-        {
+        if (!paser.is_done()) {
             return TCL_ERROR;
         }
 

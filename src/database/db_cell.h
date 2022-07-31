@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "utility.h"
 
 namespace pdp
 {
@@ -11,6 +11,16 @@ namespace pdp
 
       private:
         std::string name_;
+        std::string type_;   /* equivalent to class, I/O pad or CORE */
+        bool is_multi_row;       /* single row = false , multi row = true */
+        double x_orig_m_;       /* in microns */
+        double y_orig_m_;       /* in microns */
+        double width_;       /* in microns */
+        double height_;      /* in microns */
+        std::vector<unsigned> sites_;
+
+        std::vector<Rect> obs_; /* keyword OBS for non-rectangular shapes in micros */
+        //power top_power;         // VDD = 0  VSS = 1 enum
     };
 
     class Cell
@@ -40,5 +50,6 @@ namespace pdp
         bool is_placed_ = false;
         bool is_group_;
         unsigned bin_id_;
+        unsigned region_;
     };
 }  // namespace pdp

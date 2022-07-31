@@ -5,17 +5,12 @@
 #include "utility.h"
 #include "db_cell.h"
 #include "db_row.h"
+#include "db_net.h"
 
 namespace pdp {
 
     class Site {
          
-    };
-
-    class Net
-    {
-
-
     };
 
 

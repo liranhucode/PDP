@@ -22,17 +22,24 @@ set(DEFLIB_HOME
 set(LEFLIB_HOME
   ${PROJECT_SOURCE_DIR}/src/lef
 )
+set(DB_HOME
+  ${PROJECT_SOURCE_DIR}/src/database
+)
 
+file(GLOB SRC_FILES src/*.cpp)
+message(STATUS "SRC_FILES = ${SRC_FILES}")
+file(GLOB DB_SRC_FILES src/database/*.cpp)
+message(STATUS "DB_SRC_FILES = ${DB_SRC_FILES}")
+
+
+
+##Third party
 find_package(TCL COMPONENTS REQUIRED)
-
-
 if (TCL_FOUND)
   #message(STATUS "TCL_= ${}")
   message(STATUS "TCL_INCLUDE_DIR = ${TCL_INCLUDE_PATH}")
   message(STATUS "TCL_LIBS = ${TCL_LIBRARY}")
-
   include_directories(${TCL_INCLUDE_PATH})
-
 endif (TCL_FOUND)
 
 if (TK_FOUND)
@@ -43,15 +50,16 @@ endif (TK_FOUND)
 
 add_subdirectory(${DEFLIB_HOME})
 add_subdirectory(${LEFLIB_HOME})
+add_subdirectory(${DB_HOME})
 
-include_directories(src) 
 
-file(GLOB SRC_FILES src/*.cpp)
-message(STATUS "SRC_FILES = ${SRC_FILES}")
 
 ############################################################
 # Include directories
 ############################################################
+
+include_directories(src) 
+include_directories(src/database) 
 
 include_directories (
   ${LEFLIB_HOME}/lef
@@ -70,12 +78,9 @@ include_directories (
 ############################################################
 
 
-############################################################
-# Executable setting 
-############################################################
-
 add_executable( PDP
-  ${SRC_FILES}
+  ${SRC_FILES} 
+  ${DB_SRC_FILES}
 )
 
 target_link_libraries( PDP 
@@ -92,10 +97,11 @@ target_link_libraries( PDP
   ${TK_LIBRARY}
 )
 
+target_link_libraries(PDP ${database})
 #target_link_libraries(${PROGNAME} ${TCL_LIBRARY})
 #target_link_libraries(${PROGNAME} ${TK_LIBRARY})
 
-
 add_dependencies( PDP def )
 add_dependencies( PDP lef )
+add_dependencies( PDP database )
 
